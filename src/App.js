@@ -10,10 +10,9 @@ function getGreetingMessage() {
 }
 function App() {
     
-
     return (
         <div>
-            <h1>{getGreetingMessage()}</h1> 
+            <h1>{getGreetingMessage()}</h1>
         </div>
     ); 
 }

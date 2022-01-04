@@ -1,4 +1,17 @@
+#popup{
+    position: absolute;
+    left: 10%;
+    top: 10%;
+    width: 80%;
+    height: 80%;
+}
 
-#central-buttons{
-    top: 50%;
+#popup-content{
+    display: block;
+    padding-top: 10%;
+    height: 80%;
+}
+
+#buttons-div{
+   padding-top: 30%;
 }

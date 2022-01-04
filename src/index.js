@@ -8,8 +8,10 @@ import Home from './home';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Home />
-    <App />
+    <div className='fill-window'>
+      <App />
+      <Home />
+    </div>
   </React.StrictMode>,
   document.getElementById('root')
 );
