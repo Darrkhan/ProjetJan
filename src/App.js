@@ -1,18 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './index.css';
+import appContext from './appContext';
+import Home from './pages/home';
+import Editor from './pages/editor';
+import OnlineVideo from './pages/onlineVideo'
 
-function getGreetingMessage() {
-    let x = 0;
-    for (let index = 0; index < 15; index++) {
-        x= index+x;
+function situation(state){
+    if (state===1) {
+        return <Editor/>
     }
-    return x;
+    if(state===2) {
+        return <OnlineVideo />
+    }
+    return <Home/>
 }
+
 function App() {
-    
+    const [state, setState] = useState(0);
+    const [filesInQueue, setFilesInQueue] = useState(0);
+    const context = {
+        state,
+        setState,
+        filesInQueue,
+        setFilesInQueue
+    };
     return (
         <div>
-            <h1>{getGreetingMessage()}</h1>
+            <appContext.Provider value={context}>
+                {situation(state)}
+            </appContext.Provider>
         </div>
     ); 
 }

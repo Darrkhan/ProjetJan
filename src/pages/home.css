@@ -16,3 +16,8 @@
 #buttons-div{
    padding-top: 10%;
 }
+
+#validate-button{
+    height: 60px;
+    margin-top: 75px;
+}
