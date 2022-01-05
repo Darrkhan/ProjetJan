@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Online Video Converter</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <video id="videoPlayer" width="650" controls muted="muted" autoplay>
+      <source src="/mongo-video" type="video/mp4" />
+    </video>
+    <div class="container">
+      <br /><br />
+      <h1 style="text-align: center;">Online Video Converter</h1>
+      <form action="/convert" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <input type="file" name="file"/>
+          <div id="dropbox"></div>
+        </div>
+        <div class="form-example">
+          <label for="name">Enter fileName: </label>
+          <input type="text" name="name" id="name" required>
+        </div>
+        <div class="form-group">
+          <label for="to">To:</label>
+          <select class="form-control" name="to">
+            <option>mp4</option>
+            <option>flv</option>
+            <option>avi</option>
+            <option>webm</option>
+            <option>mov</option>
+            <option>mp3</option>
+            <option>wav</option>
+          </select>
+        </div>
+        <br />
+        <div class="form-group">
+          <button class="btn btn-danger btn-block">
+            Convert
+          </button>
+        </div>
+      </form>
+      <form action="/cut" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <input type="file" name="file"/>
+        </div>
+        <div class="form-example">
+          <label for="name">Enter fileName: </label>
+          <input type="text" name="name" id="name" required>
+          </br>
+          <br />
+          <label for="min">Début: </label>
+          <input type="text" name="min" id="min" required>
+          <label for="sec">: </label>
+          <input type="text" name="sec" id="sec" required>
+          <label for="min1">Fin: </label>
+          <input type="text" name="min1" id="min1" required>
+          <label for="sec1">: </label>
+          <input type="text" name="sec1" id="sec1" required>
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="to">To:</label>
+          <select class="form-control" name="to">
+            <option>mp4</option>
+            <option>flv</option>
+            <option>avi</option>
+            <option>webm</option>
+            <option>mov</option>
+            <option>mp3</option>
+            <option>wav</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-danger btn-block">
+            Convert
+          </button>
+        </div>
+      </form>
+      <form action="/screenshot" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <input type="file" name="file"/>
+        </div>
+        <div class="form-example">
+          <label for="name">Enter fileName: </label>
+          <input type="text" name="name" id="name" required>
+          </br>
+          <br />
+          <label for="minScreen">Screenshot temps: </label>
+          <input type="text" name="minScreen" id="minScreen" required>
+          <label for="secScreen">: </label>
+          <input type="text" name="secScreen" id="secScreen" required>
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="to">To:</label>
+          <select class="form-control" name="to">
+            <option>jpg</option>
+            <option>png</option>
+          </select>
+        </div>
+        </br>
+        <div class="form-group">
+          <button class="btn btn-danger btn-block">
+            Convert
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+  <style>
+    body {
+      margin:50px;
+    }
+
+    #dropbox {
+      position:relative;
+      width:400px;
+      height:400px;
+      border:2px dashed #333333;
+      padding:15px;
+      background:rgba(0, 255, 0, .5);
+    }
+
+    #dropbox::before {
+      content:"Drop your MP4 file here...";
+      display:block;
+      font-size:12px;
+      padding:5px 0;
+      left:0;
+    }
+
+    .preview {
+      display:inline-block;
+      width:100px;
+      height:auto;
+      margin:0 15px 15px;
+    }
+</style>
+</html>
