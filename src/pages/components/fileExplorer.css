@@ -1,0 +1,17 @@
+input{
+    border-radius: 20px;
+    width: 90%;
+    margin:10px;
+}
+th{
+    padding: 20px;
+}
+tr{
+    border-bottom: 2px solid rgb(64 70 74);
+}
+td{
+    padding: 5px;
+}
+i{
+    padding: 5px;
+}
