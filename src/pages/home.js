@@ -26,13 +26,13 @@ function Home() {
                     <div className="d-inline-flex">
                         <Fragment>
                             <Dropzone
-                                style={{ minWidth: "350px" }}
+                                style={{ minWidth: "360px", backgroundColor: "#212529", color:"white" }}
                                 onChange={updateFiles}
                                 minHeight="195px"
                                 onClean
                                 label="Drop your video"
                                 value={files}
-                                maxFiles={1}
+                                maxFiles={10}
                                 maxFileSize={29980000000}
                                 accept="video/*"
                                 url="localhost:3001"
