@@ -82,6 +82,38 @@
           </button>
         </div>
       </form>
+      <form action="/gif" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <input type="file" name="file"/>
+        </div>
+        <div class="form-example">
+          <label for="name">Enter fileName: </label>
+          <input type="text" name="name" id="name" required>
+          </br>
+          <br />
+          <p>Max duration : 5s</p>
+          <label for="min">Début: </label>
+          <input type="text" name="min" id="min" required>
+          <label for="sec">: </label>
+          <input type="text" name="sec" id="sec" required>
+          <label for="min1">Fin: </label>
+          <input type="text" name="min1" id="min1" required>
+          <label for="sec1">: </label>
+          <input type="text" name="sec1" id="sec1" required>
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="to">To:</label>
+          <select class="form-control" name="to">
+            <option>gif</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-danger btn-block">
+            Convert to gif
+          </button>
+        </div>
+      </form>
       <form action="/screenshot" method="post" enctype="multipart/form-data">
         <div class="form-group">
           <input type="file" name="file"/>
@@ -105,6 +137,32 @@
           </select>
         </div>
         </br>
+        <div class="form-group">
+          <button class="btn btn-danger btn-block">
+            Convert
+          </button>
+        </div>
+      </form>
+      <form action="/youtube" method="post" enctype="multipart/form-data">
+        <div class="form-example">
+          <label for="url">Enter URL video: </label>
+          <input type="text" name="url" id="url" required>
+          <label for="name">Enter name: </label>
+          <input type="text" name="name" id="name" required>
+        </div>
+        <div class="form-group">
+          <label for="to">To:</label>
+          <select class="form-control" name="to">
+            <option>mp4</option>
+            <option>flv</option>
+            <option>avi</option>
+            <option>webm</option>
+            <option>mov</option>
+            <option>mp3</option>
+            <option>wav</option>
+          </select>
+        </div>
+        <br />
         <div class="form-group">
           <button class="btn btn-danger btn-block">
             Convert

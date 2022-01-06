@@ -25,11 +25,9 @@ function App() {
         setFilesInQueue
     };
     return (
-        <div>
-            <appContext.Provider value={context}>
-                {situation(state)}
-            </appContext.Provider>
-        </div>
+        <appContext.Provider value={context}>
+            {situation(state)}
+        </appContext.Provider>
     ); 
 }
 export default App;

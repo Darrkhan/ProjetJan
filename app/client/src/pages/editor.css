@@ -1,6 +1,39 @@
 #side-file-explorer{
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    bottom: 0px;
+    height: 100%;
+}
+
+#editorContainer{
+    width: 290px;
+    overflow-y: auto;
+    height: 100%;
+}
+
+#editorContainer::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+}
+
+#editorContainer::-webkit-scrollbar
+{
+	width: 12px;
+}
+
+#editorContainer::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #555;
+}
+
+.editorComponents{
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgb(33, 37, 41);
+    color:white;
+}
+
+#videoPreview{
+    width: 0px;
 }

@@ -7,6 +7,13 @@ const fs = require("fs");
 const mongodb = require('mongodb');
 const url = 'mongodb://127.0.0.1';
 const { dirname } = require('path');
+const cors = require('cors');
+const corsOptions ={
+    origin:'*',
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200,
+}
+app.use(cors(corsOptions));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyparser.urlencoded({ extended: false }));
@@ -23,9 +30,10 @@ app.use(
 
   app.post("/convert", (req, res) => {
 
-    let to = req.body.to;
-    let file = req.files.file;
-    let nom = req.body.name;
+    let to = req.body.file_extension;
+    console.log(req.body);
+    let file = req.body.file;
+    let nom = req.body.file_name;
     let fileName = `${nom}.${to}`;
 
     console.log(to);
@@ -177,6 +185,81 @@ app.use(
       });
     })
   });
+  app.post("/youtube", (req, res) => {
+
+    let to = req.body.to;
+    let nom = req.body.name;
+    let url = req.body.url;
+    let fileNotName = `${nom}.${to}`;
+    let fileName = `${nom}.mp4`;
+
+    ytdl(url)
+      .pipe(fs.createWriteStream(fileName));
+
+  });
+  app.post("/gif", (req, res) => {
+        let to = req.body.to;
+        let file = req.files.file;
+        let nom = req.body.name;
+        let fileName = `${nom}.${to}`;
+        let min = req.body.min;
+        let sec = req.body.sec;
+        let min1 = req.body.min1;
+        let sec1 = req.body.sec1;
+        console.log(file);
+        file.mv("tmp/" + file.name, function (err) {
+          if (err) return res.sendStatus(500).send(err);
+          console.log("File Uploaded successfully");
+        });
+        ffmpeg.ffprobe("tmp/" + file.name, (err, metadata)  => {
+          const duration = metadata.format.duration;
+          console.log(metadata);
+        });
+        let startingTime = min*60 + sec;
+        //const startingTime = parseInt(duration / 2);
+        const endTime = min1*60 + sec1;
+        const clipDuration = endTime - startingTime;
+        console.log(startingTime);
+        console.log(endTime);
+        console.log(clipDuration);
+        startingTime++;
+        ffmpeg("tmp/" + file.name)
+        ffmpeg()
+          .input("tmp/" + file.name)
+          .inputOptions([ `-ss ${startingTime}`])
+          .outputOptions([ `-t ${clipDuration}`])
+          .outputFormat(to)
+          .outputFps(15)
+          .noAudio()
+          .withSize('640x480')
+          .output(fileName)
+          .on('end', () => console.log('Done!'))
+          .on("end", function (stdout, stderr) {
+            console.log("Finished");
+            if (clipDuration <= 5) {
+              res.download(fileName, function (err) {
+                if (err) throw err;
+
+                fs.unlink(fileName, function (err) {
+                  if (err) throw err;
+                  console.log("File deleted");
+                });
+              });
+            }
+            fs.unlink( "tmp/"+ file.name, function (err) {
+              if (err) throw err;
+              console.log("File deleted");
+            });
+          })
+          .on("error", function (err) {
+            console.log("an error happened");
+            fs.unlink("tmp/" + file.name, function (err) {
+              if (err) throw err;
+              console.log("File deleted");
+            });
+          })
+          .run();
+    });
 
 console.log(ffmpeg);
 
