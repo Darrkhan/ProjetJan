@@ -39,18 +39,23 @@ export default class VideoConverter extends Component {
   // This function will handle the submission.
     onSubmit(e) {
       e.preventDefault();
-
       // When post request is sent to the create url, axios will add a new record(conversion) to the database.
+      
+      let data = new FormData();
+      data.append('file', this.file);
+      data.append('file_name', this.state.file_name);
+      data.append('file_extension', this.state.file_extension);
       const conversion = {
-        file: this.state.file,
+        file: this.file,
         file_name: this.state.file_name,
         file_extension: this.state.file_extension,
       };
+      console.log(data);
    
       axios
-        .post("http://localhost:8000/convert", conversion)
+        .post("http://localhost:8000/convert", data)
         .then((res) => console.log(res.data));
-   
+      console.log(conversion);
       // We will empty the state after posting the data to the database
       this.setState({
         file: "",
@@ -68,7 +73,7 @@ export default class VideoConverter extends Component {
                                     style={{width:'90%'}}
                                     name="file"
                                     onChange={this.onChangeFile}                          
-                                />
+                            />
                             <Form.Label>File name</Form.Label>
                             <Form.Control 
                                 type="text" 

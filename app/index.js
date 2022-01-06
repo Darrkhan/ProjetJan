@@ -31,7 +31,7 @@ app.use(
   app.post("/convert", (req, res) => {
 
     let to = req.body.file_extension;
-    console.log(req.body);
+    console.log(req.body.file);
     let file = req.body.file;
     let nom = req.body.file_name;
     let fileName = `${nom}.${to}`;
