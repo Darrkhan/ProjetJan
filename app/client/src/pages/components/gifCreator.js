@@ -1,17 +1,19 @@
+import React, { useState } from "react";
 import { Button, Form, Row, Col } from 'react-bootstrap';
 import '../home.css';
-import React, { useState } from "react";
 import axios from 'axios';
-import fileSaver from 'file-saver';
-import { useAppContext } from '../../appContext';
+import fileSaver from 'file-saver'
+import { useAppContext } from "../../appContext";
 
-function VideoScreenshot() {
+function GifCreator() {
   const { uploadedFiles } = useAppContext();
   const [file, setFile] = useState(uploadedFiles[0].file);
-  const [screenshot_min, setScreenshotMin] = useState('');
-  const [screenshot_sec, setScreenshotSec] = useState('');
+  const [begin_min, setBeginMin] = useState('');
+  const [begin_sec, setBeginSec] = useState('');
+  const [end_min, setEndMin] = useState('');
+  const [end_sec, setEndSec] = useState('');
   const [file_name, setFileName] = useState('');
-  const [file_extension, setFileExtension] = useState('jpg');
+  const [file_extension, setFileExtension] = useState('gif');
  
   // These methods will update the state properties.
   const onChangeFile = (e) => {
@@ -19,14 +21,24 @@ function VideoScreenshot() {
     setFile(file);
   }
   
-  const onChangeScreenMin = (e) => {
-    const screenshot_min = e.target.value;
-    setScreenshotMin(screenshot_min);
+  const onChangeBeginMin = (e) => {
+    const begin_min = e.target.value;
+    setBeginMin(begin_min);
   }
 
-  const onChangeScreenSec = (e) => {
-    const screenshot_sec =e.target.value;
-    setScreenshotSec(screenshot_sec);
+  const onChangeBeginSec = (e) => {
+    const begin_sec =e.target.value;
+    setBeginSec(begin_sec);
+  }
+
+  const onChangeEndMin = (e) => {
+    const end_min = e.target.value;
+    setEndMin(end_min);
+  }
+
+  const onChangeEndSec = (e) => {
+    const end_sec =e.target.value;
+    setEndSec(end_sec);
   }
 
   const onChangeFileName = (e) => {
@@ -47,10 +59,12 @@ function VideoScreenshot() {
       data.append('file', file);
       data.append('name', file_name);
       data.append('to', file_extension);
-      data.append('minScreen', screenshot_min);
-      data.append('secScreen', screenshot_sec);
+      data.append('min', begin_min);
+      data.append('sec', begin_sec);
+      data.append('min1', end_min);
+      data.append('sec1', end_sec);
       
-      axios.post('http://localhost:8000/screenshot', data, {
+      axios.post('http://localhost:8000/gif', data, {
         responseType: 'arraybuffer',
         headers: {
             'Content-Type': 'multipart/form-data',
@@ -65,7 +79,7 @@ function VideoScreenshot() {
                 <div className='editorComponents'>
                     <Form>
                         <Form.Group className="mb-3">
-                          <Form.Control 
+                            <Form.Control 
                                     type="file"
                                     style={{width:'90%'}}
                                     name="file" 
@@ -83,38 +97,62 @@ function VideoScreenshot() {
                             </Form.Text>
                         </Form.Group>
                         <Form.Group className="mb-3">
-                            <Form.Label>Screenshot temps</Form.Label>
+                            <Form.Label>Begin at</Form.Label>
                             <Row>
                                 <Col  md={5}>
                                     <Form.Control 
                                         placeholder="Minutes"
-                                        onChange={onChangeScreenMin}
+                                        onChange={onChangeBeginMin} 
                                     />
                                 </Col>
                                 <Col  md={5}>
                                     <Form.Control 
-                                        placeholder="Seconds"
-                                        onChange={onChangeScreenSec}
+                                        placeholder="Seconds" 
+                                        onChange={onChangeBeginSec} 
                                     />
                                 </Col>
                             </Row>
                         </Form.Group>
                         <Form.Group className="mb-3">
+                            <Form.Label>End at</Form.Label>
+                            <Row>
+                                <Col  md={5}>
+                                    <Form.Control 
+                                        placeholder="Minutes"
+                                        onChange={onChangeEndMin} 
+                                    />
+                                </Col>
+                                <Col  md={5}>
+                                    <Form.Control 
+                                        placeholder="Seconds"
+                                        onChange={onChangeEndSec} 
+                                    />
+                                </Col>
+                            </Row>
+                            <Form.Text className="text-muted">
+                                Max 5 seconds !
+                            </Form.Text>
+                        </Form.Group>
+                        <Form.Group className="mb-3">
                             <Form.Label>To :</Form.Label>
-                            <Form.Select 
+                            <Form.Select
                                 style={{marginLeft:'9px', width:'90%'}}
                                 onChange={onChangeFileExtension}
                             >
-                                <option value="jpg">jpg</option>
-                                <option value="png">png</option>
+                                <option value="mp4">gif</option>
                             </Form.Select>
                         </Form.Group>
-                        <Button variant="secondary" type="button" onClick={uploadFile}>
-                            Screenshot
+                        <Button 
+                            variant="secondary" 
+                            type="button"
+                            value="Create gif"
+                            onClick={uploadFile}
+                        >
+                            Create gif
                         </Button>
                     </Form>
                 </div>
             </>
 }
 
-export default VideoScreenshot;
+export default GifCreator;

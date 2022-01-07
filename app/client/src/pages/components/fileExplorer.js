@@ -28,12 +28,12 @@ class TheFileExplorer extends React.Component {
         size: 85 * 1024,
       },
       {
-        key: 'current/letter chunks.avi',
+        key: 'database/letter chunks.avi',
         modified: +Moment().subtract(15, 'days'),
         size: 480 * 1024,
       },
       {
-        key: 'current/export.mp4',
+        key: 'database/export.mp4',
         modified: +Moment().subtract(15, 'days'),
         size: 4.2 * 1024 * 1024,
       },

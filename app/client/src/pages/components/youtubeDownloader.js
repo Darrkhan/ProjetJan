@@ -3,18 +3,17 @@ import { Button, Form } from 'react-bootstrap';
 import '../home.css';
 import axios from 'axios'
 import fileSaver from 'file-saver'
-import { useAppContext } from "../../appContext";
 
-function VideoConverter() {
-    const { uploadedFiles } = useAppContext();
-    const [file, setFile] = useState(uploadedFiles[0].file);
+function YoutubeDownloader() {
+
+    const [url, setUrl] = useState('');
     const [file_name, setFileName] = useState('');
     const [file_extension, setFileExtension] = useState('mp4');
    
     // These methods will update the state properties.
-    const onChangeFile = (e) => {
-      const file = e.target.files[0];
-      setFile(file);
+    const onChangeUrl = (e) => {
+      const url = e.target.value;
+      setUrl(url);
     }
       
     const onChangeFileName = (e) => {
@@ -32,11 +31,11 @@ function VideoConverter() {
         let datatype = 'video/' + file_extension;
         let dataname = file_name + '.' + file_extension;
         let data = new FormData();
-        data.append('file', file);
+        data.append('url', url);
         data.append('name', file_name);
         data.append('to', file_extension);
         
-        axios.post('http://localhost:8000/convert', data, {
+        axios.post('http://localhost:8000/youtube', data, {
           responseType: 'arraybuffer',
           headers: {
               'Content-Type': 'multipart/form-data',
@@ -52,11 +51,12 @@ function VideoConverter() {
                 <div className='editorComponents'>
                     <Form>
                         <Form.Group className="mb-3">
+                            <Form.Label>Youtube link</Form.Label>
                             <Form.Control 
-                                    type="file"
-                                    style={{width:'90%'}}
-                                    name="file" 
-                                    onChange={onChangeFile}                          
+                                type="text" 
+                                placeholder="Youtube url" 
+                                style={{width:'90%'}}
+                                onChange={onChangeUrl}                          
                             />
                             <Form.Label>File name</Form.Label>
                             <Form.Control 
@@ -77,12 +77,6 @@ function VideoConverter() {
                                 onChange={onChangeFileExtension}
                             >
                                 <option value="mp4">mp4</option>
-                                <option value="flv">flv</option>
-                                <option value="avi">avi</option>
-                                <option value="webm">webm</option>
-                                <option value="mov">mov</option>
-                                <option value="mp3">mp3</option>
-                                <option value="wav">wav</option>
                             </Form.Select>
                         </Form.Group>
                         <Button 
@@ -91,11 +85,11 @@ function VideoConverter() {
                             value="Convert file"
                             onClick={uploadFile}
                         >
-                            Convert
+                            Download
                         </Button>
                     </Form>
                 </div>
             </>
 }
 
-export default VideoConverter;
+export default YoutubeDownloader;

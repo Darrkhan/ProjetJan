@@ -18,11 +18,14 @@ function situation(state){
 function App() {
     const [state, setState] = useState(0);
     const [filesInQueue, setFilesInQueue] = useState(0);
+    const [uploadedFiles, setUploadedFiles] = useState('');
     const context = {
         state,
         setState,
         filesInQueue,
-        setFilesInQueue
+        setFilesInQueue,
+        uploadedFiles,
+        setUploadedFiles
     };
     return (
         <appContext.Provider value={context}>

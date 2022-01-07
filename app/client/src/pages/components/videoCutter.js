@@ -1,109 +1,96 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Button, Form, Row, Col } from 'react-bootstrap';
 import '../home.css';
 import axios from 'axios';
+import fileSaver from 'file-saver'
+import { useAppContext } from "../../appContext";
 
-export default class VideoCutter extends Component {
-    // This is the constructor that stores the data.
-    constructor(props) {
-      super(props);
-   
-      this.onChangeFileName = this.onChangeFileName.bind(this);
-      this.onChangeFileExtension = this.onChangeFileExtension.bind(this);
-      this.onChangeBeginMin = this.onChangeBeginMin.bind(this);
-      this.onChangeBeginSec = this.onChangeBeginSec.bind(this);
-      this.onChangeEndMin = this.onChangeEndMin.bind(this);
-      this.onChangeEndSec = this.onChangeEndSec.bind(this);
-      this.onSubmit = this.onSubmit.bind(this);
-   
-      this.state = {
-        file_name: "",
-        file_extension: "",
-        begin_min: "",
-        begin_sec: "",
-        end_min: "",
-        end_sec: ""
-      };
-    }
-   
-    // These methods will update the state properties.
-    onChangeFileName(e) {
-      this.setState({
-        file_name: e.target.value,
-      });
-    }
-   
-    onChangeFileExtension(e) {
-      this.setState({
-        file_extension: e.target.value,
-      });
-    }
+function VideoCutter() {
+  const { uploadedFiles } = useAppContext();
+  const [file, setFile] = useState(uploadedFiles[0].file);
+  const [begin_min, setBeginMin] = useState('');
+  const [begin_sec, setBeginSec] = useState('');
+  const [end_min, setEndMin] = useState('');
+  const [end_sec, setEndSec] = useState('');
+  const [file_name, setFileName] = useState('');
+  const [file_extension, setFileExtension] = useState('mp4');
+ 
+  // These methods will update the state properties.
+  const onChangeFile = (e) => {
+    const file = e.target.files[0];
+    setFile(file);
+  }
+  
+  const onChangeBeginMin = (e) => {
+    const begin_min = e.target.value;
+    setBeginMin(begin_min);
+  }
 
-    onChangeBeginMin(e) {
-        this.setState({
-            begin_min: e.target.value,
-        });
-    }
+  const onChangeBeginSec = (e) => {
+    const begin_sec =e.target.value;
+    setBeginSec(begin_sec);
+  }
 
-    onChangeBeginSec(e) {
-        this.setState({
-            begin_sec: e.target.value,
-        });
-    }
+  const onChangeEndMin = (e) => {
+    const end_min = e.target.value;
+    setEndMin(end_min);
+  }
 
-    onChangeEndMin(e) {
-        this.setState({
-            end_min: e.target.value,
-        });
-    }
+  const onChangeEndSec = (e) => {
+    const end_sec =e.target.value;
+    setEndSec(end_sec);
+  }
 
-    onChangeEndSec(e) {
-        this.setState({
-            end_sec: e.target.value,
-        });
-    }
-
-      
+  const onChangeFileName = (e) => {
+    const file_name = e.target.value;
+    setFileName(file_name);
+  }
+ 
+  const onChangeFileExtension = (e) => {
+    const file_extension = e.target.value;
+    setFileExtension(file_extension);
+  }
+ 
   // This function will handle the submission.
-    onSubmit(e) {
-      e.preventDefault();
-   
-      // When post request is sent to the create url, axios will add a new record(newvideo) to the database.
-      const newvideo = {
-        file_name: this.state.file_name,
-        file_extension: this.state.file_extension,
-        begin_min: this.state.begin_min,
-        begin_sec: this.state.begin_sec,
-        end_min: this.state.end_min,
-        end_sec: this.state.end_sec
-      };
-   
-      axios
-        .post("http://localhost:8000/cut", newvideo)
-        .then((res) => console.log(res.data));
-   
-      // We will empty the state after posting the data to the database
-      this.setState({
-        file_name: "",
-        file_extension: "",
-        begin_min: "",
-        begin_sec: "",
-        end_min: "",
-        end_sec: ""
-      });
+    const uploadFile = () => {
+      let datatype = 'video/' + file_extension;
+      let dataname = file_name + '.' + file_extension;
+      let data = new FormData();
+      data.append('file', file);
+      data.append('name', file_name);
+      data.append('to', file_extension);
+      data.append('min', begin_min);
+      data.append('sec', begin_sec);
+      data.append('min1', end_min);
+      data.append('sec1', end_sec);
+      
+      axios.post('http://localhost:8000/cut', data, {
+        responseType: 'arraybuffer',
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        }
+        }).then(res => {
+            console.log("I have an answer !");
+            var blob = new Blob([res.data], { type: datatype });
+            fileSaver.saveAs(blob, dataname);
+        }).catch(err => console.log(err))
     }
-    render(){
-        return <>
+    return <>
                 <div className='editorComponents'>
-                    <Form onSubmit={this.onSubmit}>
+                    <Form>
                         <Form.Group className="mb-3">
+                            <Form.Control 
+                                    type="file"
+                                    style={{width:'90%'}}
+                                    name="file" 
+                                    onChange={onChangeFile}                          
+                            />
                             <Form.Label>File name</Form.Label>
                             <Form.Control 
                                 type="text" 
                                 placeholder="File name" 
                                 style={{width:'90%'}}
-                                value={this.state.file_name}  
-                                onChange={this.onChangeFileName} 
+                                onChange={onChangeFileName} 
                             />
                             <Form.Text className="text-muted">
                                 You can choose a new name.
@@ -115,15 +102,13 @@ export default class VideoCutter extends Component {
                                 <Col  md={5}>
                                     <Form.Control 
                                         placeholder="Minutes"
-                                        value={this.state.begin_min}  
-                                        onChange={this.onChangeBeginMin} 
+                                        onChange={onChangeBeginMin} 
                                     />
                                 </Col>
                                 <Col  md={5}>
                                     <Form.Control 
                                         placeholder="Seconds" 
-                                        value={this.state.begin_sec}  
-                                        onChange={this.onChangeBeginSec} 
+                                        onChange={onChangeBeginSec} 
                                     />
                                 </Col>
                             </Row>
@@ -134,15 +119,13 @@ export default class VideoCutter extends Component {
                                 <Col  md={5}>
                                     <Form.Control 
                                         placeholder="Minutes"
-                                        value={this.state.end_min}  
-                                        onChange={this.onChangeEndMin} 
+                                        onChange={onChangeEndMin} 
                                     />
                                 </Col>
                                 <Col  md={5}>
                                     <Form.Control 
                                         placeholder="Seconds"
-                                        value={this.state.end_sec}  
-                                        onChange={this.onChangeEndSec} 
+                                        onChange={onChangeEndSec} 
                                     />
                                 </Col>
                             </Row>
@@ -151,8 +134,7 @@ export default class VideoCutter extends Component {
                             <Form.Label>To :</Form.Label>
                             <Form.Select
                                 style={{marginLeft:'9px', width:'90%'}}
-                                value={this.state.file_extension}
-                                onChange={this.onChangeFileExtension}
+                                onChange={onChangeFileExtension}
                             >
                                 <option value="mp4">mp4</option>
                                 <option value="flv">flv</option>
@@ -165,13 +147,15 @@ export default class VideoCutter extends Component {
                         </Form.Group>
                         <Button 
                             variant="secondary" 
-                            type="submit"
+                            type="button"
                             value="Cut file"
+                            onClick={uploadFile}
                         >
                             Cut
                         </Button>
                     </Form>
                 </div>
             </>
-    }
 }
+
+export default VideoCutter;

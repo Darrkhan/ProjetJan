@@ -7,11 +7,13 @@ import InteractiveMenu from './components/interactiveMenu';
 
 function Home() {
     const [files, setFiles] = useState([]);
-    const { setFilesInQueue } = useAppContext();
+    const { setFilesInQueue, setUploadedFiles } = useAppContext();
     const [videoSrc, setVideoSrc] = useState(undefined);
     const updateFiles = (incommingFiles) => {
         setFilesInQueue(incommingFiles.length);
         setFiles(incommingFiles);
+        setUploadedFiles(incommingFiles);
+        console.log(incommingFiles[0].file);
     };
     const onDelete = (id) => {
         setFiles(files.filter((x) => x.id !== id));

@@ -1,13 +1,16 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import './editor.css';
-import { Routes, Route } from 'react-router-dom'
 import FileExplorer from './components/fileExplorer'
 import VideoConverter from './components/videoConverter';
 import VideoCutter from './components/videoCutter';
 import VideoScreenshot from './components/videoScreenshot';
+import GifCreator from './components/gifCreator';
+import YoutubeDownloader from './components/youtubeDownloader';
+import VideoPlayer from './components/videoPlayer';
 
 function Editor() {
+
     return (
         <>
             <Row style={{height:'100%'}}>
@@ -18,16 +21,16 @@ function Editor() {
                 </Col>
                 <Col sm='2' style={{height:'100%'}}>
                     <div id="editorContainer">
-                        <Routes>
-                            <Route path="/" element={<VideoConverter />} />
-                            <Route path="/" element={<VideoCutter />} />
-                            <Route path="/" element={<VideoScreenshot />} />
-                        </Routes>
+                        <VideoConverter />
+                        <VideoCutter />
+                        <VideoScreenshot />
+                        <GifCreator />
+                        <YoutubeDownloader />
                     </div>
                 </Col>
                 <Col sm='7' style={{height:'100%'}}>
                     <div id='videoPreview'>
-
+                        <VideoPlayer />
                     </div>
                 </Col>
             </Row>
