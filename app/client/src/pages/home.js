@@ -13,7 +13,7 @@ function Home() {
         setFilesInQueue(incommingFiles.length);
         setFiles(incommingFiles);
         setUploadedFiles(incommingFiles);
-        console.log(incommingFiles[0].file);
+        console.log(incommingFiles);
     };
     const onDelete = (id) => {
         setFiles(files.filter((x) => x.id !== id));

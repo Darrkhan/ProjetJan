@@ -65,12 +65,6 @@ function VideoScreenshot() {
                 <div className='editorComponents'>
                     <Form>
                         <Form.Group className="mb-3">
-                          <Form.Control 
-                                    type="file"
-                                    style={{width:'90%'}}
-                                    name="file" 
-                                    onChange={onChangeFile}                          
-                            />
                             <Form.Label>File name</Form.Label>
                             <Form.Control 
                                 type="text" 
@@ -86,7 +80,7 @@ function VideoScreenshot() {
                             <Form.Label>Screenshot temps</Form.Label>
                             <Row>
                                 <Col  md={5}>
-                                    <Form.Control 
+                                    <Form.Control
                                         placeholder="Minutes"
                                         onChange={onChangeScreenMin}
                                     />

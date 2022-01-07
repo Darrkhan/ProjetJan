@@ -9,14 +9,82 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   </head>
+  <style>
+   .btn-group button {
+        background-color: #FFFFFF; /* Green background */
+        border: 1px solid white; /* Green border */
+        color: black; /* White text */
+        padding: 10px 24px; /* Some padding */
+        cursor: pointer; /* Pointer/hand icon */
+        width: 50%; /* Set a width if needed */
+        display: block; /* Make the buttons appear below each other */
+    }
+
+    .btn-group button:not(:last-child) {
+        border-bottom: none; /* Prevent double borders */
+    }
+
+    .btn-group button:hover {
+        background-color: #C4B4B0;
+    }
+  </style>
+
   <body>
-    <video id="videoPlayer" width="650" controls muted="muted" autoplay>
-      <source src="/mongo-video" type="video/mp4" />
-    </video>
+    <script>
+        function sendData(name){
+            $.ajax({
+                url: '/change',
+                type: 'post',
+                data: {name:name},
+                success: function(response){
+                }
+            });
+        }
+        $( document ).ready(function() {
+            const names = [];
+            $.ajax({
+                url: "http://127.0.0.1:8000/data",
+                success: function(result){
+                    let max = (result.length);
+                    for (let i = 0; i < max; i++) {
+                        let someStr = JSON.stringify(result[i].filename);
+                        data = someStr.replace(/['"]+/g, '');
+                        names.push(data);
+                    }
+                    names.forEach(function (name) {
+                        let tmp = "sendData('" + name + "')";
+                        console.log(tmp);
+                        const node = document.createElement("button");
+                        node.setAttribute("id","/name");
+                        node.setAttribute("onclick", tmp);
+                        node.setAttribute("type","submit");
+                        let namenode = document.createTextNode(name);
+                        node.appendChild(namenode);
+                        console.log("name :", name);
+                        document.getElementById('menu').appendChild(node);
+                    });
+                },
+
+                error: function(){
+                    alert('Unable to reach data');
+                }
+            });
+        });
+
+
+    </script>
+     <div class="btn-group" id="menu">
+     <a href="/video" target="_blank" onclick="window.open(this.href); return false;">Lire</a>
+    </div>
+
+
+
     <div class="container">
       <br /><br />
       <h1 style="text-align: center;">Online Video Converter</h1>
+<!--###################################################      CONVERT     #######################################################-->
       <form action="/convert" method="post" enctype="multipart/form-data">
         <div class="form-group">
           <input type="file" name="file"/>
@@ -45,6 +113,13 @@
           </button>
         </div>
       </form>
+
+
+
+
+<!--###################################################      CUT     #######################################################-->
+
+
       <form action="/cut" method="post" enctype="multipart/form-data">
         <div class="form-group">
           <input type="file" name="file"/>
@@ -82,38 +157,11 @@
           </button>
         </div>
       </form>
-      <form action="/gif" method="post" enctype="multipart/form-data">
-        <div class="form-group">
-          <input type="file" name="file"/>
-        </div>
-        <div class="form-example">
-          <label for="name">Enter fileName: </label>
-          <input type="text" name="name" id="name" required>
-          </br>
-          <br />
-          <p>Max duration : 5s</p>
-          <label for="min">Début: </label>
-          <input type="text" name="min" id="min" required>
-          <label for="sec">: </label>
-          <input type="text" name="sec" id="sec" required>
-          <label for="min1">Fin: </label>
-          <input type="text" name="min1" id="min1" required>
-          <label for="sec1">: </label>
-          <input type="text" name="sec1" id="sec1" required>
-        </div>
-        <br />
-        <div class="form-group">
-          <label for="to">To:</label>
-          <select class="form-control" name="to">
-            <option>gif</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <button class="btn btn-danger btn-block">
-            Convert to gif
-          </button>
-        </div>
-      </form>
+
+<!--###################################################      SCREENSHOT     #######################################################-->
+
+
+
       <form action="/screenshot" method="post" enctype="multipart/form-data">
         <div class="form-group">
           <input type="file" name="file"/>
@@ -143,34 +191,10 @@
           </button>
         </div>
       </form>
-      <form action="/youtube" method="post" enctype="multipart/form-data">
-        <div class="form-example">
-          <label for="url">Enter URL video: </label>
-          <input type="text" name="url" id="url" required>
-          <label for="name">Enter name: </label>
-          <input type="text" name="name" id="name" required>
-        </div>
-        <div class="form-group">
-          <label for="to">To:</label>
-          <select class="form-control" name="to">
-            <option>mp4</option>
-            <option>flv</option>
-            <option>avi</option>
-            <option>webm</option>
-            <option>mov</option>
-            <option>mp3</option>
-            <option>wav</option>
-          </select>
-        </div>
-        <br />
-        <div class="form-group">
-          <button class="btn btn-danger btn-block">
-            Convert
-          </button>
-        </div>
-      </form>
     </div>
   </body>
+
+
   <style>
     body {
       margin:50px;

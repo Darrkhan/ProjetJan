@@ -1,8 +1,20 @@
 import React from 'react';
 import Moment from 'moment';
 import './fileExplorer.css';
+import { useAppContext } from '../../appContext';
 
 import FileBrowser, { Icons } from 'react-keyed-file-browser';
+
+function GetCurrentFiles() {
+  const { uploadedFiles } = useAppContext();
+  return {
+    files:[{
+      key: 'current/dazd.wav',
+      modified: 545,
+      size: 484,
+    }]
+  }
+}
 
 class TheFileExplorer extends React.Component {
   state = {
@@ -42,7 +54,10 @@ class TheFileExplorer extends React.Component {
 
   handleRenameFile = (oldKey, newKey) => {
     this.setState(state => {
-      const newFiles = []
+      const newFiles = [];/*
+      console.log(state.files);
+      console.log(GetCurrentFiles());
+      state.files += GetCurrentFiles();*/
       state.files.map((file) => {
         if (file.key === oldKey) {
           newFiles.push({

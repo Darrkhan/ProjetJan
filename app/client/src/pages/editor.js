@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import './editor.css';
 import FileExplorer from './components/fileExplorer'
 import VideoConverter from './components/videoConverter';
@@ -7,7 +7,9 @@ import VideoCutter from './components/videoCutter';
 import VideoScreenshot from './components/videoScreenshot';
 import GifCreator from './components/gifCreator';
 import YoutubeDownloader from './components/youtubeDownloader';
-import VideoPlayer from './components/videoPlayer';
+import VideoSizer from './components/videoSizer';
+import VideosConcatenate from './components/concatenate';
+import LoadingButton from './components/buttonLoadVideo';
 
 function Editor() {
 
@@ -23,14 +25,16 @@ function Editor() {
                     <div id="editorContainer">
                         <VideoConverter />
                         <VideoCutter />
+                        <VideoSizer />
                         <VideoScreenshot />
                         <GifCreator />
                         <YoutubeDownloader />
+                        <VideosConcatenate />
                     </div>
                 </Col>
                 <Col sm='7' style={{height:'100%'}}>
                     <div id='videoPreview'>
-                        <VideoPlayer />
+                        <LoadingButton />
                     </div>
                 </Col>
             </Row>

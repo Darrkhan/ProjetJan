@@ -10,6 +10,7 @@ function VideoConverter() {
     const [file, setFile] = useState(uploadedFiles[0].file);
     const [file_name, setFileName] = useState('');
     const [file_extension, setFileExtension] = useState('mp4');
+    const [file_audio, setFileAudio] = useState('yes');
    
     // These methods will update the state properties.
     const onChangeFile = (e) => {
@@ -26,6 +27,11 @@ function VideoConverter() {
       const file_extension = e.target.value;
       setFileExtension(file_extension);
     }
+
+    const onChangeFileAudio = (e) => {
+        const file_audio = e.target.value;
+        setFileAudio(file_audio);
+      }
    
     // This function will handle the submission.
       const uploadFile = () => {
@@ -35,6 +41,7 @@ function VideoConverter() {
         data.append('file', file);
         data.append('name', file_name);
         data.append('to', file_extension);
+        data.append('sound', file_audio);
         
         axios.post('http://localhost:8000/convert', data, {
           responseType: 'arraybuffer',
@@ -52,12 +59,6 @@ function VideoConverter() {
                 <div className='editorComponents'>
                     <Form>
                         <Form.Group className="mb-3">
-                            <Form.Control 
-                                    type="file"
-                                    style={{width:'90%'}}
-                                    name="file" 
-                                    onChange={onChangeFile}                          
-                            />
                             <Form.Label>File name</Form.Label>
                             <Form.Control 
                                 type="text" 
@@ -83,6 +84,16 @@ function VideoConverter() {
                                 <option value="mov">mov</option>
                                 <option value="mp3">mp3</option>
                                 <option value="wav">wav</option>
+                            </Form.Select>
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Audio :</Form.Label>
+                            <Form.Select 
+                                style={{marginLeft:'9px', width:'90%'}}
+                                onChange={onChangeFileAudio}
+                            >
+                                <option value="yes">yes</option>
+                                <option value="no">no</option>
                             </Form.Select>
                         </Form.Group>
                         <Button 

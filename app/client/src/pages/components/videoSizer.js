@@ -5,13 +5,11 @@ import axios from 'axios';
 import fileSaver from 'file-saver'
 import { useAppContext } from "../../appContext";
 
-function VideoCutter() {
+function VideoSizer() {
   const { uploadedFiles } = useAppContext();
   const [file, setFile] = useState(uploadedFiles[0].file);
-  const [begin_min, setBeginMin] = useState('');
-  const [begin_sec, setBeginSec] = useState('');
-  const [end_min, setEndMin] = useState('');
-  const [end_sec, setEndSec] = useState('');
+  const [x_size, setXSize] = useState('');
+  const [y_size, setYSize] = useState('');
   const [file_name, setFileName] = useState('');
   const [file_extension, setFileExtension] = useState('mp4');
  
@@ -20,25 +18,15 @@ function VideoCutter() {
     const file = e.target.files[0];
     setFile(file);
   }
-  
-  const onChangeBeginMin = (e) => {
-    const begin_min = e.target.value;
-    setBeginMin(begin_min);
+
+  const onChangeXSize = (e) => {
+    const x_size = e.target.value;
+    setXSize(x_size);
   }
 
-  const onChangeBeginSec = (e) => {
-    const begin_sec =e.target.value;
-    setBeginSec(begin_sec);
-  }
-
-  const onChangeEndMin = (e) => {
-    const end_min = e.target.value;
-    setEndMin(end_min);
-  }
-
-  const onChangeEndSec = (e) => {
-    const end_sec =e.target.value;
-    setEndSec(end_sec);
+  const onChangeYSize = (e) => {
+    const y_size = e.target.value;
+    setYSize(y_size);
   }
 
   const onChangeFileName = (e) => {
@@ -59,12 +47,10 @@ function VideoCutter() {
       data.append('file', file);
       data.append('name', file_name);
       data.append('to', file_extension);
-      data.append('min', begin_min);
-      data.append('sec', begin_sec);
-      data.append('min1', end_min);
-      data.append('sec1', end_sec);
+      data.append('wScreen', x_size);
+      data.append('hScreen', y_size);
       
-      axios.post('http://localhost:8000/cut', data, {
+      axios.post('http://localhost:8000/size', data, {
         responseType: 'arraybuffer',
         headers: {
             'Content-Type': 'multipart/form-data',
@@ -91,35 +77,18 @@ function VideoCutter() {
                             </Form.Text>
                         </Form.Group>
                         <Form.Group className="mb-3">
-                            <Form.Label>Begin at</Form.Label>
+                            <Form.Label>Video re-size</Form.Label>
                             <Row>
                                 <Col  md={5}>
                                     <Form.Control 
-                                        placeholder="Minutes"
-                                        onChange={onChangeBeginMin} 
+                                        placeholder="weight"
+                                        onChange={onChangeXSize} 
                                     />
                                 </Col>
                                 <Col  md={5}>
                                     <Form.Control 
-                                        placeholder="Seconds" 
-                                        onChange={onChangeBeginSec} 
-                                    />
-                                </Col>
-                            </Row>
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>End at</Form.Label>
-                            <Row>
-                                <Col  md={5}>
-                                    <Form.Control 
-                                        placeholder="Minutes"
-                                        onChange={onChangeEndMin} 
-                                    />
-                                </Col>
-                                <Col  md={5}>
-                                    <Form.Control 
-                                        placeholder="Seconds"
-                                        onChange={onChangeEndSec} 
+                                        placeholder="height" 
+                                        onChange={onChangeYSize} 
                                     />
                                 </Col>
                             </Row>
@@ -145,11 +114,11 @@ function VideoCutter() {
                             value="Cut file"
                             onClick={uploadFile}
                         >
-                            Cut
+                            Re-size
                         </Button>
                     </Form>
                 </div>
             </>
 }
 
-export default VideoCutter;
+export default VideoSizer;

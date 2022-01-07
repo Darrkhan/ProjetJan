@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Online Video Converter</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  </head>
+  <style>
+   .btn-group button {
+        background-color: #FFFFFF; /* Green background */
+        border: 1px solid white; /* Green border */
+        color: black; /* White text */
+        padding: 10px 24px; /* Some padding */
+        cursor: pointer; /* Pointer/hand icon */
+        width: 50%; /* Set a width if needed */
+        display: block; /* Make the buttons appear below each other */
+    }
+
+    .btn-group button:not(:last-child) {
+        border-bottom: none; /* Prevent double borders */
+    }
+
+    .btn-group button:hover {
+        background-color: #C4B4B0;
+    }
+  </style>
+
+  <body>
+  <div id="oui">
+        <video id="videoPlayer" width="650" controls muted="muted" autoplay>
+            <source src="/name" type="video/mp4"/>
+        </video>
+    </div>
+    <button type='submit' onclick='window.close()'>test</button>
+  </body>
+</html>

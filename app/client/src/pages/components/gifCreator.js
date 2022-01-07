@@ -53,7 +53,7 @@ function GifCreator() {
  
   // This function will handle the submission.
     const uploadFile = () => {
-      let datatype = 'image/' + file_extension;
+      let datatype = 'image/gif';
       let dataname = file_name + '.' + file_extension;
       let data = new FormData();
       data.append('file', file);
@@ -79,12 +79,6 @@ function GifCreator() {
                 <div className='editorComponents'>
                     <Form>
                         <Form.Group className="mb-3">
-                            <Form.Control 
-                                    type="file"
-                                    style={{width:'90%'}}
-                                    name="file" 
-                                    onChange={onChangeFile}                          
-                            />
                             <Form.Label>File name</Form.Label>
                             <Form.Control 
                                 type="text" 

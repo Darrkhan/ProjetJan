@@ -69,16 +69,6 @@ function YoutubeDownloader() {
                                 You can choose a new name.
                             </Form.Text>
                         </Form.Group>
-
-                        <Form.Group className="mb-3">
-                            <Form.Label>To :</Form.Label>
-                            <Form.Select 
-                                style={{marginLeft:'9px', width:'90%'}}
-                                onChange={onChangeFileExtension}
-                            >
-                                <option value="mp4">mp4</option>
-                            </Form.Select>
-                        </Form.Group>
                         <Button 
                             variant="secondary" 
                             type="button"
